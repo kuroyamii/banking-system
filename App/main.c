@@ -31,7 +31,7 @@ void pause(){
     fflush(stdin);
     getchar();
 }
-
+ 
 void menu(){
     header();
     printf("\n1. Tarik Tunai\n2. Setor Tunai\n3. Riwayat Transaksi\n4. Logout");
