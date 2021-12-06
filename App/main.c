@@ -40,6 +40,7 @@ int main()
 
 main:
     clear();
+    header();
     printf("(NAMABANK) Banking System");
     printf("\n\n1. Login\n2. Sign Up\n3. Exit");
     printf("\n\nSelect Action: ");
