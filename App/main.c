@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../library/utils/utils.h"
+#include "../library/auth/auth.h"
 
 int choice;
 char id[8];
@@ -13,8 +15,30 @@ void menu();
 //Main Driver To Run The Program
 int main()
 {
-main:
+    int pilihan;
+    header();
+    do
+    {
+        printf("Apakah anda sudah memiliki rekening? ");
+        printf("\n1. Sudah\n2. Belum\nPilih: ");
+        scanf("%d", &pilihan);
+        if (pilihan == 2)
+        {
+            printf("Apakah anda ingin membuat rekening?");
+            printf("\n1. Ya\n2. Tidak\n3. Keluar\nPilih: ");
+            scanf("%d", &pilihan);
+            if (pilihan == 1)
+            {
+                addRekening();
+            }
+            else if (pilihan == 3)
+            {
+                goto end;
+            }
+        }
+    } while (pilihan < 1 || pilihan > 2);
 
+main:
     clear();
     printf("(NAMABANK) Banking System");
     printf("\n\n1. Login\n2. Sign Up\n3. Exit");
@@ -41,7 +65,9 @@ end:
     return 0;
 }
 
-//Function Header Program (CLI)
+/*
+Procedure to print out the title of the app
+*/
 void header()
 {
     clear();
