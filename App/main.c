@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "../library/utils/utils.h"
 #include "../library/auth/auth.h"
+#include "../library/transaction/trans.h"
 
 int choice;
 char id[8];
@@ -88,19 +89,19 @@ void pause()
 }
 void trxWithdraw()
 {
-    //TBA
+    withdrw();
 }
 
 void trxDeposit()
 {
-    //TBA
+    deposit();
 }
 
 void trxHistory()
 {
     printf("\n1. Nominal Terkecil Ke Terbesar");
     printf("\n2. Nominal Terbesar Ke Terkecil");
-    printf("\n3. Default\n4. Kembali");
+    printf("\n3. Default\n4. Kembali\n5. Ngawur");
     printf("\n\nMasukkan Pilihan: ");
     scanf("%d", &choice);
     switch (choice)
@@ -116,6 +117,8 @@ void trxHistory()
         break;
     case 4:
         menu();
+    case 5:
+        history();
     default:
         pause();
         trxHistory();
