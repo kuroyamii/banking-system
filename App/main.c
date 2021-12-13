@@ -14,7 +14,6 @@ int main()
 {
     int pilihan;
     header();
-    trxWithdraw(2021);
     do
     {
         printf("Apakah anda sudah memiliki rekening? ");
@@ -46,7 +45,7 @@ main:
     switch (choice)
     {
     case 1:
-        signin();
+        //login();
         break;
     case 2:
         //signup();
