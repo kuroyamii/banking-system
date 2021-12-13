@@ -2,14 +2,11 @@
 #include <stdlib.h>
 #include "../library/utils/utils.h"
 #include "../library/auth/auth.h"
+#include "../library/transaction/trx.h"
 
 int choice;
 char id[8];
 void header();
-void pause();
-void trxWithdraw();
-void trxDeposit();
-void trxHistory();
 void menu();
 
 //Main Driver To Run The Program
@@ -17,6 +14,7 @@ int main()
 {
     int pilihan;
     header();
+    trxWithdraw(2021);
     do
     {
         printf("Apakah anda sudah memiliki rekening? ");
@@ -48,7 +46,7 @@ main:
     switch (choice)
     {
     case 1:
-        //login();
+        signin();
         break;
     case 2:
         //signup();
@@ -57,7 +55,7 @@ main:
         goto end;
         break;
     default:
-        pause;
+        pauseErr();
         goto main;
         break;
     }
@@ -79,50 +77,6 @@ void header()
     printf("-----------------------------------------\n");
 }
 
-void pause()
-{
-    printf("\nPilihan Tidak Tersedia.");
-    printf("\nTekan ENTER untuk kembali...");
-    fflush(stdin);
-    getchar();
-}
-void trxWithdraw()
-{
-    //TBA
-}
-
-void trxDeposit()
-{
-    //TBA
-}
-
-void trxHistory()
-{
-    printf("\n1. Nominal Terkecil Ke Terbesar");
-    printf("\n2. Nominal Terbesar Ke Terkecil");
-    printf("\n3. Default\n4. Kembali");
-    printf("\n\nMasukkan Pilihan: ");
-    scanf("%d", &choice);
-    switch (choice)
-    {
-    case 1:
-        //TBA
-        break;
-    case 2:
-        //TBA
-        break;
-    case 3:
-        //TBA
-        break;
-    case 4:
-        menu();
-    default:
-        pause();
-        trxHistory();
-        break;
-    }
-}
-
 void menu()
 {
     header();
@@ -133,15 +87,15 @@ void menu()
     {
     case 1:
         header();
-        trxWithdraw();
+        //trxWithdraw();
         break;
     case 2:
         header();
-        trxDeposit();
+        //trxDeposit(id);
         break;
     case 3:
         header();
-        trxHistory();
+        //trxHistory();
         break;
     case 4:
         header();
@@ -152,7 +106,7 @@ void menu()
         break;
     default:
         header();
-        pause();
+        pauseErr();
         menu();
         break;
     }
