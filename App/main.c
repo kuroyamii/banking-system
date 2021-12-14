@@ -2,66 +2,49 @@
 #include <stdlib.h>
 #include "../library/utils/utils.h"
 #include "../library/auth/auth.h"
+#include "../library/transaction/trx.h"
 
 int choice;
-char id[8];
+int id;
 void header();
-void pause();
-void trxWithdraw();
-void trxDeposit();
-void trxHistory();
 void menu();
 
 //Main Driver To Run The Program
 int main()
-{
-    int pilihan;
-    header();
+{   
+main:
     do
     {
-        printf("Apakah anda sudah memiliki rekening? ");
-        printf("\n1. Sudah\n2. Belum\nPilih: ");
-        scanf("%d", &pilihan);
-        if (pilihan == 2)
+        clear();
+        printf("(NAMABANK) Banking System\n\n");
+        printf("Apakah Anda Sudah Memiliki Rekening? ");
+        printf("\n1. Sudah\n2. Belum\n\nMasukkan Pilihan: ");
+        scanf("%d", &choice);
+        switch (choice)
         {
-            printf("Apakah anda ingin membuat rekening?");
-            printf("\n1. Ya\n2. Tidak\n3. Keluar\nPilih: ");
-            scanf("%d", &pilihan);
-            if (pilihan == 1)
-            {
-                addRekening();
+        case 1:
+            //signin();
+            break;
+        case 2:
+            clear();
+            printf("(NAMABANK) Banking System\n\n");
+            printf("Apakah Anda Ingin Membuat Rekening?");
+            printf("\n1. Ya\n2. Tidak\n3. Keluar\n\nMasukkan Pilihan: ");
+            scanf("%d", &choice);
+            if (choice==1){
+                //signup();
             }
-            else if (pilihan == 3)
-            {
+            else if (choice==2){
+                goto main;
+            }
+            else if (choice==3){
                 goto end;
             }
+            break;
+        default:
+            break;
         }
-    } while (pilihan < 1 || pilihan > 2);
-
-main:
-    clear();
-    header();
-    printf("(NAMABANK) Banking System");
-    printf("\n1. Login\n2. Sign Up\n3. Exit");
-    printf("\n\nSelect Action: ");
-    scanf("%d", &choice);
-    switch (choice)
-    {
-    case 1:
-        //login();
-        break;
-    case 2:
-        //signup();
-        break;
-    case 3:
-        goto end;
-        break;
-    default:
-        pause;
-        goto main;
-        break;
-    }
-
+    } while (choice < 1 || choice > 2);
 end:
     return 0;
 }
@@ -71,56 +54,12 @@ Procedure to print out the title of the app
 */
 void header()
 {
-    clear();
+    //clear();
     printf("-----------------------------------------\n");
     printf("|       (NAMABANK) Banking System       |\n");
-    printf("|              ID %-8s              |\n", id);
+    printf("|              ID %-8d              |\n", id);
     printf("|            version xxx                |\n");
     printf("-----------------------------------------\n");
-}
-
-void pause()
-{
-    printf("\nPilihan Tidak Tersedia.");
-    printf("\nTekan ENTER untuk kembali...");
-    fflush(stdin);
-    getchar();
-}
-void trxWithdraw()
-{
-    //TBA
-}
-
-void trxDeposit()
-{
-    //TBA
-}
-
-void trxHistory()
-{
-    printf("\n1. Nominal Terkecil Ke Terbesar");
-    printf("\n2. Nominal Terbesar Ke Terkecil");
-    printf("\n3. Default\n4. Kembali");
-    printf("\n\nMasukkan Pilihan: ");
-    scanf("%d", &choice);
-    switch (choice)
-    {
-    case 1:
-        //TBA
-        break;
-    case 2:
-        //TBA
-        break;
-    case 3:
-        //TBA
-        break;
-    case 4:
-        menu();
-    default:
-        pause();
-        trxHistory();
-        break;
-    }
 }
 
 void menu()
@@ -133,15 +72,21 @@ void menu()
     {
     case 1:
         header();
-        trxWithdraw();
+        trxWithdraw(id);
+        if (trxWithdraw)
+        menu();
         break;
     case 2:
         header();
-        trxDeposit();
+        trxDeposit(id);
+        if (trxDeposit)
+        menu();
         break;
     case 3:
         header();
-        trxHistory();
+        trxHistory(id);
+        if (trxHistory)
+        menu();
         break;
     case 4:
         header();
@@ -152,7 +97,7 @@ void menu()
         break;
     default:
         header();
-        pause();
+        pauseErr();
         menu();
         break;
     }
