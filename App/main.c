@@ -45,24 +45,24 @@ main:
             break;
         }
     } while (choice < 1 || choice > 2);
-    printf("\n\nSelect Action: ");
-    scanf("%d", &choice);
-    switch (choice)
-    {
-    case 1:
-        //login();
-        break;
-    case 2:
-        //signup();
-        break;
-    case 3:
-        goto end;
-        break;
-    default:
-        pauseErr();
-        goto main;
-        break;
-    }
+    // printf("\n\nSelect Action: ");
+    // scanf("%d", &choice);
+    // switch (choice)
+    // {
+    // case 1:
+    //     //login();
+    //     break;
+    // case 2:
+    //     //signup();
+    //     break;
+    // case 3:
+    //     goto end;
+    //     break;
+    // default:
+    //     pauseErr();
+    //     goto main;
+    //     break;
+    // }
 
 end:
     return 0;
