@@ -12,12 +12,14 @@ void menu();
 
 void userCount(){
     FILE *fptr;
+    char *ptr;
     char temp[20];
     fptr = fopen("../database/userCount.txt","r");
     fgets(temp,20,fptr);
     sscanf(temp,"%[^\n]\n",&temp);
     fflush(stdin);
-    users = atol(temp);
+    users = strtol(temp,&ptr,20);
+    //users = atol(temp);
     fclose(fptr);
 }
 
