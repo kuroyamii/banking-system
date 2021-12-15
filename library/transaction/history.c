@@ -1,6 +1,6 @@
 #include "../transaction/trxDb.h"
 
-int trxHistory(int uid)
+int trxHistory(long uid)
 {
     int choice;
     history=fopen(dbHistory, "a");

@@ -1,12 +1,13 @@
 #include "../transaction/trxDb.h"
 
-int trxWithdraw(int uid)
+int trxWithdraw(long uid)
 {
-    int x=0;
+    int x=0, y=0, z=0;
+    char tmp[101];
     int choice, amount, sec;
     Database userDb[max];
     user=fopen(db, "r");
-    history=fopen(dbHistory, "a");
+    history=fopen(dbHistory, "r+");
     printf("\nPenarikan Saldo");
     printf("\nLokasi Penarikan:");
     printf("\n1. ATM\n2. Cabang Denpasar");
@@ -35,7 +36,17 @@ int trxWithdraw(int uid)
             if (sec==userDb[x].userPin){
                 userDb[x].userSaldo=userDb[x].userSaldo-amount;
                 fflush(stdin);
-                fprintf(history, "Penarikan_%d_%d\n", userDb[x].userId, amount);
+                while (fgets(tmp, 101, history)!=NULL){
+                    fscanf(history,"%ld", &userDb[y].userHistory);
+                    fflush(stdin);
+                    if (userDb[y].userHistory==userDb[x].userId){
+                        fprintf(history,"%d_Withdraw\n", amount);
+                        z=1;
+                    }
+                    y++;
+                }
+                if (z==0)
+                fprintf(history,"*****\n%ld\n%d_Deposit\n", userDb[x].userId, amount);
             }
             else {
                 printf("\nPIN Salah.");

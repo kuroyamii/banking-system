@@ -6,7 +6,6 @@
 
 long users,u_id;
 int choice;
-int id;
 void header();
 void menu();
 
@@ -40,7 +39,7 @@ int main()
 main:
     do
     {
-        clear();
+        //clear();
         printf("(NAMABANK) Banking System\n\n");
         printf("Apakah Anda Sudah Memiliki Rekening? ");
         printf("\n1. Sudah\n2. Belum\n\nMasukkan Pilihan: ");
@@ -120,19 +119,19 @@ void menu()
     {
     case 1:
         header();
-        trxWithdraw(id);
+        trxWithdraw(u_id);
         if (trxWithdraw)
         menu();
         break;
     case 2:
         header();
-        trxDeposit(id);
+        trxDeposit(u_id);
         if (trxDeposit)
         menu();
         break;
     case 3:
         header();
-        trxHistory(id);
+        trxHistory(u_id);
         if (trxHistory)
         menu();
         break;

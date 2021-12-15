@@ -5,9 +5,9 @@
 #define max 100
 
 typedef struct{
-    int userId, userPin;
-    long userSaldo;
-    char userName[max];
+    int userPin;
+    long userId, userSaldo, userHistory;
+    char userName[max+1];
 } Database;
 
 FILE *user, *history;
