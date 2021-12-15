@@ -2,11 +2,3 @@
 admin
 admin
 1
-*****
-kuroyamii
-kuroyamii
-0121220022
-*****
-cd "f:\School Stuffs\Coding\Tugas Sekolah\Semester 3\prakStrukDat\banking-system\App\" ; if ($?) { g
-
-0121220022

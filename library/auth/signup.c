@@ -80,17 +80,16 @@ bool eligible(bool state)
                                         }
                                     }
                                 }
+                            }else{
+                                fclose(fp);
+                                return true;
                             }
-                            fclose(fptr);
-                            fclose(fp);
-                            return true;
                         }
                     }
                 }
             }
         }
     }
-    fclose(fptr);
     fclose(fp);
     return false;
 }
@@ -144,7 +143,8 @@ void signup()
 }
 
 char *generateUID(char name[], char date[], long jumlahUser, char id[]){
-    int hash = atoi(name)%10;
+    int hash = atoi(name)%9;
+    hash++;
     char temp[20];
     char tgl[3],bln[3],thn[5];
     itoa(hash, temp,2);

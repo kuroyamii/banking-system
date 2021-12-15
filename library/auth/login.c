@@ -7,7 +7,7 @@
 
 
 
-bool read(char username[51], char password[51])
+bool read(char username[51], char password[51],long *u_id)
 {
     FILE *fptr;
     char tmp[60], uname[60], pass[60];
@@ -23,6 +23,8 @@ bool read(char username[51], char password[51])
             sscanf(tmp, "%60[^\n]\n", &pass);
             fflush(stdin);
             fgets(tmp, 60, fptr);
+            sscanf(tmp, "%60[^\n]\n", &tmp);
+            *u_id = atol(tmp);
             fflush(stdin);
             if (strcmp(uname, username) == 0 && strcmp(pass, password) == 0)
             {
@@ -35,7 +37,7 @@ bool read(char username[51], char password[51])
     return false;
 }
 
-bool signin()
+bool signin(long *u_id)
 {
     char username[51];
     char password[51];
@@ -47,5 +49,5 @@ bool signin()
     fflush(stdin);
     printf("Password: ");
     scanf("%[^\n]s", &password);
-    return read(username, password);
+    return read(username, password,u_id);
 }

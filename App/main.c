@@ -4,7 +4,7 @@
 #include "../library/auth/auth.h"
 #include "../library/transaction/trx.h"
 
-long users;
+long users,u_id;
 int choice;
 int id;
 void header();
@@ -45,18 +45,19 @@ main:
         scanf("%d", &choice);
         switch (choice)
         {
-        case 1:{
-        menu2:
+        case 1:
+        {
             printf("Menu:\n1. Sign in\n2. Sign up\n3. Keluar\nPilih: ");
             scanf("%d",&choice);
             switch(choice){
                 case 1:
                 {
-                    if(signin() == true){
+                    if(signin(&u_id) == true){
+                        printf("%ld",u_id);
                         printf("berhasil masuk!\n");
+                        menu();
                     }else{
-                        printf("Gagal");
-                        
+                        printf("Gagal");   
                     }
                     break;
                 }
@@ -67,7 +68,6 @@ main:
                     goto end;
                     break;
             }
-            if(choice == 1 || choice == 2) goto menu2;
             break;
         }
         case 2:
