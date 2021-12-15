@@ -50,7 +50,7 @@ void defaultDisplay(int uid){
             printf("Tipe transaksi: %s", bantu->tipeTrx);
             printf("Nominal: %d", bantu->nominal);
             bantu = bantu->next;
-        }while(bantu != tail->next);
+        }while(bantu != tail);
     }
 }
 
@@ -138,14 +138,14 @@ int trxHistory(int uid)
     // }
     while(fgets(tmp, 11, history) != NULL){
         if(strcmp(tmp, "*****\n") == 0){
-            fscanf(history, "%d", &tempId);
-            printf("tempID = %d\n", tempId);
+            fscanf(history, "%ld", &tempId);
             if(tempId == uid){
                 while(strcmp(fgets(tmp, 11, history), "*****\n") != 0){
                     fscanf(history, "%ld_%[^\n]", &tempV, &tempT);
                     linkedList(tempT, tempV);
                     count++;
                 }
+                count--;
                 break;
             }
         }
