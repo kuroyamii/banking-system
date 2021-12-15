@@ -4,13 +4,14 @@
 #include <stdbool.h>
 #include "../utils/utils.h"
 
-char nama[101], email[51], ttl[11], ktp[21];
+char nama[101], email[51], ttl[11], ktp[21], userId[50];
 
-bool eligible()
+bool eligible(bool state)
 {
+    FILE *fptr;
     FILE *fp;
     char tmp[101], data[101];
-    fp = fopen("../database/database_rekening.txt", "r");
+    fp = fopen("../database/user_rekening.txt", "r");
     fflush(stdin);
     printf("Nama                     : ");
     scanf("%[^\n]s", nama);
@@ -57,8 +58,32 @@ bool eligible()
                         fflush(stdin);
                         if (strcmp(tmp, ktp) == 0)
                         {
-                            fclose(fp);
-                            return true;
+                            if(state == true){
+                                fptr = fopen("../database/user.txt","r");
+                                fgets(tmp, 50, fp);
+                                sscanf(tmp, "%50[^\n]\n", &userId);
+                                fflush(stdin);
+
+                                while((fgets(tmp, 101, fptr) != NULL)){
+                                    if (strcmp(tmp, "*****\n") == 0){
+                                        fgets(tmp, 50, fptr);
+                                        fflush(stdin);
+                                        fgets(tmp, 50, fptr);
+                                        fflush(stdin);
+                                        fgets(tmp, 50, fptr);
+                                        sscanf(tmp, "%50[^\n]\n", &tmp);
+                                        fflush(stdin);
+                                        if(strcmp(tmp,userId) == 0){
+                                            fclose(fp);
+                                            fclose(fptr);
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }else{
+                                fclose(fp);
+                                return true;
+                            }
                         }
                     }
                 }
@@ -77,7 +102,7 @@ void signup()
     filePointer = fopen("../database/user.txt", "a+");
     printf("Masukkan data untuk memeriksa eligibility:\n");
 
-    if (eligible() == true)
+    if (eligible(true) == true)
     {
         printf("Masukkan data yang ingin didaftarkan:\n");
         printf("Username: ");
@@ -108,22 +133,48 @@ void signup()
         printf("Password: ");
         scanf("%100[^\n]s", password);
         fflush(stdin);
-        fprintf(filePointer, "*****\n%s\n%s\n", username, password);
+        fprintf(filePointer, "*****\n%s\n%s\n%s\n", username, password,userId);
     }
     else
     {
-        printf("Maaf anda belum memenuhi kriteria!\nSilahkan buka rekening terlebih dahulu apabila belum memiliki rekening!\n");
+        printf("Akun tidak dapat dibuat!\n");
     }
+    fclose(filePointer);
 }
 
-void addRekening()
+char *generateUID(char name[], char date[], long jumlahUser, char id[]){
+    int hash = (int) strtol(name, (char **)NULL, 50)%9;
+    hash++;
+    char temp[20];
+    char tgl[3],bln[3],thn[5];
+    sprintf(temp,"%d",hash);
+    //itoa(hash, temp,2);
+    strcat(id,temp);
+    sscanf(date,"%2[^/]/%2[^/]/%4[^\n]\n",&tgl,&bln,&thn);
+    strcat(id,tgl);
+    strcat(id,bln);
+    strcat(id,thn);
+    
+    sprintf(temp,"%ld",jumlahUser);
+    //ltoa(jumlahUser,temp,20);
+    strcat(id,temp);
+    return id;
+}
+
+
+long addRekening(long jumlahUser)
 {
+    char uid[30]="";
     printf("Masukkan data untuk membuka rekening:\n");
     FILE *fptr;
-    fptr = fopen("../database/database_rekening.txt", "a");
-    if (eligible() == false)
+    fptr = fopen("../database/user_rekening.txt", "a");
+    if (eligible(false) == false)
     {
-        fprintf(fptr, "*****\n%s\n%s\n%s\n%s\n", nama, email, ttl, ktp);
+        generateUID(nama,ttl,jumlahUser+1,uid);
+        fprintf(fptr, "*****\n%s\n%s\n%s\n%s\n%s\n", nama, email, ttl, ktp, uid);
+        fclose(fptr);
+        return 1;
     }
     fclose(fptr);
+    return 0;
 }
