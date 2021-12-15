@@ -3,16 +3,16 @@
 int trxDeposit(long uid)
 {
     int x=0, y=0, z=0;
-    char tmp[101];
-    int choice, amount, sec;
+    char tmp[101], sec[7];
+    int choice, amount;
     Database userDb[max];
     user=fopen(db, "r");
     history=fopen(dbHistory, "r+");
-    printf("\nDeposit Saldo");
-    printf("\nLokasi Deposit:");
+    printf("\nDeposit Saldo\n");
+    printf("\nLokasi Deposit:\n");
     printf("\n1. Minimarket\n2. Teller Denpasar");
     printf("\n3. Teller Kuta\n4. Teller Jimbaran");
-    printf("\nMasukkan Pilihan: "); scanf("%d", &choice);
+    printf("\n\nMasukkan Pilihan: "); scanf("%d", &choice);
     if (choice==1){
         printf("\nMasukkan Jumlah Deposit: "); scanf("%d", &amount);
         printf("\nHarap Periksa Kembali Jumlah Dana\nKemudian Setor Jumlah Dana Yang Sesuai Pada Kasir.");
@@ -29,12 +29,11 @@ int trxDeposit(long uid)
     }
 
     while (!feof(user)){
-        fscanf(user,"%ld_%[^_]_%ld_%d\n", &userDb[x].userId, &userDb[x].userName, &userDb[x].userSaldo, &userDb[x].userPin);
+        fscanf(user,"%ld_%[^_]_%ld_%s\n", &userDb[x].userId, &userDb[x].userName, &userDb[x].userSaldo, &userDb[x].userPin);
         fflush(stdin);
-        printf("%ld\n", userDb[x].userId);
         if (uid==userDb[x].userId){
-            printf("\nMasukkan PIN: "); scanf("%d", &sec);
-            if (sec==userDb[x].userPin){
+            printf("\nMasukkan PIN: "); scanf("%s", &sec);
+            if (strcmp(sec, userDb[x].userPin)==0){
                 userDb[x].userSaldo=userDb[x].userSaldo+amount;
                 fflush(stdin);
                 while (fgets(tmp, 101, history)!=NULL){
@@ -63,7 +62,7 @@ int trxDeposit(long uid)
     fclose(user);
     user=fopen(db, "a");
     for (int i=0; i<x; i++){
-        fprintf(user,"%d_%s_%ld_%d\n", userDb[i].userId, userDb[i].userName, userDb[i].userSaldo, userDb[i].userPin);
+        fprintf(user,"%ld_%s_%ld_%s\n", userDb[i].userId, userDb[i].userName, userDb[i].userSaldo, userDb[i].userPin);
     }
     fclose(user);
 }

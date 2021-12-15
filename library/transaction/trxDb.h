@@ -2,12 +2,12 @@
 #define TRXDB_DOT_H
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define max 100
 
 typedef struct{
-    int userPin;
     long userId, userSaldo, userHistory;
-    char userName[max+1];
+    char userName[max+1], userPin[7];
 } Database;
 
 FILE *user, *history;
