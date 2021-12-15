@@ -125,15 +125,29 @@ int trxHistory(int uid)
     int choice;
     int tempId;
     char tempT[11];
+    char tmp[11];
     int tempV;
     int count = 0;
-    //user=fopen(db, "r");
     history=fopen(dbHistory, "r");
-    while(!feof(history)){
-        fscanf(history, "%[^_]_%d_%d", &tempT, &tempId, &tempV);
-        if(tempId == uid){
-            linkedList(tempT, tempV);
-            count++;
+    // while(!feof(history)){
+    //     fscanf(history, "%[^_]_%d_%d", &tempT, &tempId, &tempV);
+    //     if(tempId == uid){
+    //         linkedList(tempT, tempV);
+    //         count++;
+    //     }
+    // }
+    while(fgets(tmp, 11, history) != NULL){
+        if(strcmp(tmp, "*****\n") == 0){
+            fscanf(history, "%d", &tempId);
+            printf("tempID = %d\n", tempId);
+            if(tempId == uid){
+                while(strcmp(fgets(tmp, 11, history), "*****\n") != 0){
+                    fscanf(history, "%ld_%[^\n]", &tempV, &tempT);
+                    linkedList(tempT, tempV);
+                    count++;
+                }
+                break;
+            }
         }
     }
     printf("\n1. Nominal Terkecil Ke Terbesar");
