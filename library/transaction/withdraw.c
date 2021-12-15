@@ -1,26 +1,23 @@
 #include "../transaction/trxDb.h"
 
-int trxWithdraw(int uid)
+int trxWithdraw(long uid)
 {
-    int x=0;
-    int choice, amount, sec;
+    int x=0, y=0, z=0;
+    char tmp[101], sec[7];
+    int choice, amount;
     Database userDb[max];
     user=fopen(db, "r");
-    history=fopen(dbHistory, "a");
-    printf("\nPenarikan Saldo");
-    printf("\nLokasi Penarikan:");
+    history=fopen(dbHistory, "r+");
+    printf("\nPenarikan Saldo\n");
+    printf("\nLokasi Penarikan:\n");
     printf("\n1. ATM\n2. Cabang Denpasar");
     printf("\n3. Cabang Kuta\n4. Cabang Jimbaran");
-    printf("\nMasukkan Pilihan: "); scanf("%d", &choice);
+    printf("\n\nMasukkan Pilihan: "); scanf("%d", &choice);
     if (choice==1){
         printf("\nMasukkan ID Pengguna Pada Mesin."); pause();
-        printf("\nMasukkan Jumlah Penarikan: "); scanf("%d", &amount);
-        printf("\nHarap Periksa Kembali Jumlah Dana.");
-        pause();
     }
     else if ((choice>1) && (choice<5)){
-        printf("\nMasukkan Jumlah Penarikan: "); scanf("%d", &amount);
-        printf("\nInformasikan ID Pengguna dan Jumlah Penarikan\nPada Petugas, dan Periksa Kembali Jumlah Dana.");
+        printf("\nInformasikan ID Pengguna dan\nJumlah Penarikan Pada Petugas");
         pause();
     }
     else {
@@ -28,17 +25,37 @@ int trxWithdraw(int uid)
     }
 
     while (!feof(user)){
-        fscanf(user,"%d_%[^_]_%ld_%d\n", &userDb[x].userId, &userDb[x].userName, &userDb[x].userSaldo, &userDb[x].userPin);
+        fscanf(user,"%ld_%[^_]_%ld_%s\n", &userDb[x].userId, &userDb[x].userName, &userDb[x].userSaldo, &userDb[x].userPin);
         fflush(stdin);
         if (uid==userDb[x].userId){
-            printf("\nMasukkan PIN: "); scanf("%d", &sec);
-            if (sec==userDb[x].userPin){
-                userDb[x].userSaldo=userDb[x].userSaldo-amount;
-                fflush(stdin);
-                fprintf(history, "Penarikan_%d_%d\n", userDb[x].userId, amount);
+            printf("\nMasukkan Jumlah Penarikan: "); scanf("%d", &amount);
+            if (amount<=userDb[x].userSaldo){
+                printf("\nHarap Periksa Kembali Jumlah Dana.");
+                pause();
+                printf("\nMasukkan PIN: "); scanf("%s", &sec);
+                if (strcmp(sec, userDb[x].userPin)==0){
+                    userDb[x].userSaldo=userDb[x].userSaldo-amount;
+                    fflush(stdin);
+                    while (fgets(tmp, 101, history)!=NULL){
+                        fscanf(history,"%ld", &userDb[y].userHistory);
+                        fflush(stdin);
+                        if (userDb[y].userHistory==userDb[x].userId){
+                            fprintf(history,"%d_Withdraw\n", amount);
+                            z=1;
+                        }
+                        y++;
+                    }
+                    if (z==0)
+                    fprintf(history,"*****\n%ld\n%d_Deposit\n", userDb[x].userId, amount);
+                }
+                else {
+                    printf("\nPIN Salah.");
+                    pause();
+                    return 1;
+                }
             }
             else {
-                printf("\nPIN Salah.");
+                printf("\nSaldo Tidak Mencukupi.");
                 pause();
                 return 1;
             }
@@ -51,7 +68,7 @@ int trxWithdraw(int uid)
     fclose(user);
     user=fopen(db, "a");
     for (int i=0; i<x; i++){
-        fprintf(user,"%d_%s_%ld_%d\n", userDb[i].userId, userDb[i].userName, userDb[i].userSaldo, userDb[i].userPin);
+        fprintf(user,"%ld_%s_%ld_%s\n", userDb[i].userId, userDb[i].userName, userDb[i].userSaldo, userDb[i].userPin);
     }
     fclose(user);
 }
