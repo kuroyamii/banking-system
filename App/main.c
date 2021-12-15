@@ -91,6 +91,7 @@ main:
             break;
         }
     } while (choice < 1 || choice > 2);
+
 end:
     userCountWrite();
     return 0;
