@@ -97,7 +97,8 @@ bool eligible(bool state)
 void signup()
 {
     FILE *filePointer;
-    char username[101], password[101], tmp[101], tmp2[101];
+    FILE *fp;
+    char username[101], password[101], tmp[101], tmp2[101],pin[20];
     bool loop = true;
     filePointer = fopen("../database/user.txt", "a+");
     printf("Masukkan data untuk memeriksa eligibility:\n");
@@ -133,7 +134,15 @@ void signup()
         printf("Password: ");
         scanf("%100[^\n]s", password);
         fflush(stdin);
+        do{
+            printf("Masukkan PIN (boleh kombinasi angka dan huruf): ");
+            scanf("%20[^\n]s",pin);
+        }while(strlen(pin) != 6);
         fprintf(filePointer, "*****\n%s\n%s\n%s\n", username, password,userId);
+        fp = fopen("../database/database_rekening.txt","a+");
+        while(fgets(tmp,100,fp)!=NULL){}
+        fprintf(fp,"%s_%s_%d_%s\n",userId,nama,0,pin);
+        fclose(fp);
     }
     else
     {
