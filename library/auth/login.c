@@ -11,6 +11,7 @@ bool read(char username[51], char password[51],long *u_id)
 {
     FILE *fptr;
     char tmp[60], uname[60], pass[60];
+    char *ptr;
     fptr = fopen("../database/user.txt", "r");
     while (fgets(tmp, 60, fptr) != NULL)
     {
@@ -24,7 +25,9 @@ bool read(char username[51], char password[51],long *u_id)
             fflush(stdin);
             fgets(tmp, 60, fptr);
             sscanf(tmp, "%60[^\n]\n", &tmp);
-            *u_id = atol(tmp);
+            
+            strtol(tmp,&ptr,60);
+            //*u_id = atol(tmp);
             fflush(stdin);
             if (strcmp(uname, username) == 0 && strcmp(pass, password) == 0)
             {

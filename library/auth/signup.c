@@ -143,17 +143,20 @@ void signup()
 }
 
 char *generateUID(char name[], char date[], long jumlahUser, char id[]){
-    int hash = atoi(name)%9;
+    int hash = (int) strtol(name, (char **)NULL, 50)%9;
     hash++;
     char temp[20];
     char tgl[3],bln[3],thn[5];
-    itoa(hash, temp,2);
+    sprintf(temp,"%d",hash);
+    //itoa(hash, temp,2);
     strcat(id,temp);
     sscanf(date,"%2[^/]/%2[^/]/%4[^\n]\n",&tgl,&bln,&thn);
     strcat(id,tgl);
     strcat(id,bln);
     strcat(id,thn);
-    ltoa(jumlahUser,temp,20);
+    
+    sprintf(temp,"%ld",jumlahUser);
+    //ltoa(jumlahUser,temp,20);
     strcat(id,temp);
     return id;
 }
