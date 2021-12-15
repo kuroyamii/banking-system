@@ -3,6 +3,9 @@
 #include <string.h>
 #include <stdbool.h>
 #include "../utils/utils.h"
+#include "../auth/auth.h"
+
+
 
 bool read(char username[51], char password[51])
 {
@@ -15,8 +18,11 @@ bool read(char username[51], char password[51])
         {
             fgets(tmp, 60, fptr);
             sscanf(tmp, "%60[^\n]\n", &uname);
+            fflush(stdin);
             fgets(tmp, 60, fptr);
             sscanf(tmp, "%60[^\n]\n", &pass);
+            fflush(stdin);
+            fgets(tmp, 60, fptr);
             fflush(stdin);
             if (strcmp(uname, username) == 0 && strcmp(pass, password) == 0)
             {

@@ -4,14 +4,37 @@
 #include "../library/auth/auth.h"
 #include "../library/transaction/trx.h"
 
+long users;
 int choice;
 int id;
 void header();
 void menu();
 
+void userCount(){
+    FILE *fptr;
+    char temp[20];
+    fptr = fopen("../database/userCount.txt","r");
+    fgets(temp,20,fptr);
+    sscanf(temp,"%[^\n]\n",&temp);
+    fflush(stdin);
+    users = atol(temp);
+    fclose(fptr);
+}
+
+void userCountWrite(){
+    FILE *fptr;
+    char temp[20];
+    fptr = fopen("../database/userCount.txt","w");
+    fprintf(fptr,"%ld\n",users);
+    fclose(fptr);
+}
+
+
 //Main Driver To Run The Program
 int main()
-{   
+{  
+    userCount();
+
 main:
     do
     {
@@ -22,9 +45,31 @@ main:
         scanf("%d", &choice);
         switch (choice)
         {
-        case 1:
-            //signin();
+        case 1:{
+        menu2:
+            printf("Menu:\n1. Sign in\n2. Sign up\n3. Keluar\nPilih: ");
+            scanf("%d",&choice);
+            switch(choice){
+                case 1:
+                {
+                    if(signin() == true){
+                        printf("berhasil masuk!\n");
+                    }else{
+                        printf("Gagal");
+                        
+                    }
+                    break;
+                }
+                case 2:
+                    signup();
+                    break;
+                case 3:
+                    goto end;
+                    break;
+            }
+            if(choice == 1 || choice == 2) goto menu2;
             break;
+        }
         case 2:
             clear();
             printf("(NAMABANK) Banking System\n\n");
@@ -32,7 +77,7 @@ main:
             printf("\n1. Ya\n2. Tidak\n3. Keluar\n\nMasukkan Pilihan: ");
             scanf("%d", &choice);
             if (choice==1){
-                //signup();
+                users = users + addRekening(users);
             }
             else if (choice==2){
                 goto main;
@@ -46,6 +91,7 @@ main:
         }
     } while (choice < 1 || choice > 2);
 end:
+    userCountWrite();
     return 0;
 }
 
