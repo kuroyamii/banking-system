@@ -36,7 +36,7 @@ int trxWithdraw(long uid)
                 pause();
                 printf("\nMasukkan PIN: "); scanf("%s", &sec);
                     if (strcmp(sec, userDb[x].userPin)==0){
-                    userDb[x].userSaldo=userDb[x].userSaldo+amount;
+                    userDb[x].userSaldo=userDb[x].userSaldo-amount;
                     fflush(stdin);
                     while (fgets(tmp, 101, history)!=NULL){
                         fscanf(history,"%ld", &userDb[y].userHistory);
@@ -62,15 +62,17 @@ int trxWithdraw(long uid)
                         }
                         y++;
                     }
-                    fclose(fpCopy);
-                    fclose(history);
-                    history = fopen(dbHistory, "w+");
-                    fpCopy = fopen("../database/copycat.txt", "r");
-                    fseek(fpCopy, 0, SEEK_SET);
-                    while(fgets(tmp, 101, fpCopy) != NULL){
-                        fputs(tmp, history);
+                    if(z == 1){
+                        fclose(fpCopy);
+                        fclose(history);
+                        history = fopen(dbHistory, "w+");
+                        fpCopy = fopen("../database/copycat.txt", "r");
+                        fseek(fpCopy, 0, SEEK_SET);
+                        while(fgets(tmp, 101, fpCopy) != NULL){
+                            fputs(tmp, history);
+                        }
+                        fclose(fopen("../database/copycat.txt", "w"));
                     }
-                    fclose(fopen("../database/copycat.txt", "w"));
                     if (z==0){
                         fprintf(history,"*****\n%ld\n%d_Penarikan\n", userDb[x].userId, amount);
                     }
