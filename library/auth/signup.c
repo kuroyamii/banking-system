@@ -123,6 +123,7 @@ void signup()
             fflush(stdin);
             while (fgets(tmp, 101, filePointer) != NULL)
             {
+                fgets(tmp, 101, filePointer);
                 sscanf(tmp, "%[^\n]\n", tmp2);
                 if (strcmp(tmp, tmp2) == 0)
                 {
@@ -153,10 +154,10 @@ void signup()
         while(fgets(tmp,100,fp)!=NULL){}
         fprintf(fp,"%s_%s_%d_%s\n",userId,nama,0,pin);
         fclose(fp);
-        fp = fopen("../database/history.txt","a+");
-        while(fgets(tmp,100,fp)!=NULL){}
-        fprintf(fp,"*****\n%s\n",userId);
-        fclose(fp);
+        // fp = fopen("../database/history.txt","a+");
+        // while(fgets(tmp,100,fp)!=NULL){}
+        // fprintf(fp,"*****\n%s\n",userId);
+        // fclose(fp);
     }
     else
     {
