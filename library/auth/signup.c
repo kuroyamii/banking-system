@@ -36,28 +36,33 @@ bool eligible(bool state)
     {
         if (strcmp(tmp, "*****\n") == 0)
         {
+            printf("border pass\n");
             fgets(tmp, 101, fp);
             sscanf(tmp, "%101[^\n]\n", &tmp);
             fflush(stdin);
             if (strcmp(tmp, nama) == 0)
             {
+            printf("nama pass\n");
                 fgets(tmp, 51, fp);
                 sscanf(tmp, "%51[^\n]\n", &tmp);
                 fflush(stdin);
                 if (strcmp(tmp, email) == 0)
                 {
-                    fgets(tmp, 11, fp);
+            printf("email pass\n");
+                   fgets(tmp, 11, fp);
                     sscanf(tmp, "%11[^\n]\n", &tmp);
                     fflush(stdin);
                     if (strcmp(tmp, ttl) == 0)
                     {
-                        fgets(tmp, 21, fp);
-                        fflush(stdin);
+            printf("ttl pass\n");
+                        // fgets(tmp, 21, fp);
+                        // fflush(stdin);
                         fgets(tmp, 21, fp);
                         sscanf(tmp, "%21[^\n]\n", &tmp);
                         fflush(stdin);
                         if (strcmp(tmp, ktp) == 0)
                         {
+                            printf("ktp pass\n");
                             if(state == true){
                                 fptr = fopen("../database/user.txt","r");
                                 fgets(tmp, 50, fp);
@@ -80,6 +85,9 @@ bool eligible(bool state)
                                         }
                                     }
                                 }
+                                fclose(fp);
+                                fclose(fptr);
+                                return true;
                             }else{
                                 fclose(fp);
                                 return true;
@@ -98,12 +106,13 @@ void signup()
 {
     FILE *filePointer;
     FILE *fp;
+    bool state = true;
     char username[101], password[101], tmp[101], tmp2[101],pin[20];
     bool loop = true;
     filePointer = fopen("../database/user.txt", "a+");
     printf("Masukkan data untuk memeriksa eligibility:\n");
 
-    if (eligible(true) == true)
+    if (eligible(state) == true)
     {
         printf("Masukkan data yang ingin didaftarkan:\n");
         printf("Username: ");
@@ -137,11 +146,16 @@ void signup()
         do{
             printf("Masukkan PIN (boleh kombinasi angka dan huruf): ");
             scanf("%20[^\n]s",pin);
+            fflush(stdin);
         }while(strlen(pin) != 6);
         fprintf(filePointer, "*****\n%s\n%s\n%s\n", username, password,userId);
         fp = fopen("../database/database_rekening.txt","a+");
         while(fgets(tmp,100,fp)!=NULL){}
         fprintf(fp,"%s_%s_%d_%s\n",userId,nama,0,pin);
+        fclose(fp);
+        fp = fopen("../database/history.txt","a+");
+        while(fgets(tmp,100,fp)!=NULL){}
+        fprintf(fp,"*****\n%s\n",userId);
         fclose(fp);
     }
     else
@@ -174,10 +188,11 @@ char *generateUID(char name[], char date[], long jumlahUser, char id[]){
 long addRekening(long jumlahUser)
 {
     char uid[30]="";
+    bool state = false;
     printf("Masukkan data untuk membuka rekening:\n");
     FILE *fptr;
     fptr = fopen("../database/user_rekening.txt", "a");
-    if (eligible(false) == false)
+    if (eligible(state) == false)
     {
         generateUID(nama,ttl,jumlahUser+1,uid);
         fprintf(fptr, "*****\n%s\n%s\n%s\n%s\n%s\n", nama, email, ttl, ktp, uid);

@@ -7,11 +7,10 @@
 
 
 
-bool read(char username[51], char password[51],long *u_id)
+bool read(char username[51], char password[51],char u_id[])
 {
     FILE *fptr;
-    char tmp[60], uname[60], pass[60];
-    char *ptr;
+    char tmp[60], uname[60], pass[60], uid[25];
     fptr = fopen("../database/user.txt", "r");
     while (fgets(tmp, 60, fptr) != NULL)
     {
@@ -24,11 +23,13 @@ bool read(char username[51], char password[51],long *u_id)
             sscanf(tmp, "%60[^\n]\n", &pass);
             fflush(stdin);
             fgets(tmp, 60, fptr);
-            sscanf(tmp, "%60[^\n]\n", &tmp);
-            
-            strtol(tmp,&ptr,60);
-            //*u_id = atol(tmp);
+            sscanf(tmp, "%25[^\n]\n", &uid);
             fflush(stdin);
+            
+            //printf("%ld\n",*u_id);
+            
+            //*u_id = atol(tmp);
+            strcpy(u_id,uid);
             if (strcmp(uname, username) == 0 && strcmp(pass, password) == 0)
             {
                 fclose(fptr);
@@ -40,17 +41,17 @@ bool read(char username[51], char password[51],long *u_id)
     return false;
 }
 
-bool signin(long *u_id)
+bool signin(char u_id[])
 {
     char username[51];
     char password[51];
     FILE *fptr;
-    printf("Admin Login\n");
+    printf("User Login\n");
     fflush(stdin);
     printf("Username: ");
     scanf("%[^\n]s", &username);
     fflush(stdin);
     printf("Password: ");
     scanf("%[^\n]s", &password);
-    return read(username, password,u_id);
+    return read(username, password, u_id);
 }
