@@ -156,16 +156,19 @@ int trxHistory(int uid)
         system("cls");
         if(isEmpty()) printf("Maaf! Belum ada data transaksi\n");
         else ascending(count, uid);
+        pause();
         break;
     case 2:
         system("cls");
         if(isEmpty()) printf("Maaf! Belum ada data transaksi\n");
         else descending(count, uid);
+        pause();
         break;
     case 3:
         system("cls");
         if(isEmpty()) printf("Maaf! Belum ada data transaksi\n");
         else defaultDisplay(uid);
+        pause();
         break;
     case 4:
         return 1;
