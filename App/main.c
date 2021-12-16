@@ -46,7 +46,7 @@ main:
         //clear();
         printf("(NAMABANK) Banking System\n\n");
         printf("Apakah Anda Sudah Memiliki Rekening? ");
-        printf("\n1. Sudah\n2. Belum\n\nMasukkan Pilihan: ");
+        printf("\n1. Sudah\n2. Belum\n3. Exit\nMasukkan Pilihan: ");
         scanf("%d", &choice);
         switch (choice)
         {
@@ -71,6 +71,7 @@ main:
                     }
                     case 2:
                         signup();
+                        
                         break;
                     case 3:
                         goto end;
@@ -98,7 +99,7 @@ main:
         default:
             break;
         }
-    } while (choice < 1 || choice > 2);
+    } while (choice!=3);
 
 end:
     userCountWrite();
