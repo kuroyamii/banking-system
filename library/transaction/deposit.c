@@ -32,16 +32,18 @@ int trxDeposit(long uid)
     }
 
     while (!feof(user)){
-        fscanf(user,"%ld_%[^_]_%ld_%s\n", &userDb[x].userId, &userDb[x].userName, &userDb[x].userSaldo, &userDb[x].userPin);
+        fscanf(user,"%ld_%50[^_]_%ld_%50[^\n]s\n", &userDb[x].userId, &userDb[x].userName, &userDb[x].userSaldo, &userDb[x].userPin);
         fflush(stdin);
         FILE *fpCopy;
         if (uid==userDb[x].userId){
-            printf("\nMasukkan PIN: "); scanf("%s", &sec);
-            if (strcmp(sec, userDb[x].userPin)==0){
-                userDb[x].userSaldo=userDb[x].userSaldo+amount;
+            printf("\nMasukkan PIN: ");
+            scanf("%[^\n]s", &sec);
+            fflush(stdin);
+            if (strcmp(sec, userDb[x].userPin) == 0){
+                userDb[x].userSaldo = userDb[x].userSaldo+amount;
                 fflush(stdin);
                 while (fgets(tmp, 101, history)!=NULL){
-                    fscanf(history,"%ld", &userDb[y].userHistory);
+                    fscanf(history,"%ld\n", &userDb[y].userHistory);
                     fflush(stdin);
                     if (userDb[y].userHistory==userDb[x].userId){
                         fprintf(history,"%ld_Deposit\n", amount);
@@ -94,4 +96,5 @@ int trxDeposit(long uid)
         fprintf(user,"%ld_%s_%ld_%s\n", userDb[i].userId, userDb[i].userName, userDb[i].userSaldo, userDb[i].userPin);
     }
     fclose(user);
+    return 0;
 }

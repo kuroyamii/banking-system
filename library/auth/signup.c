@@ -154,10 +154,10 @@ void signup()
         while(fgets(tmp,100,fp)!=NULL){}
         fprintf(fp,"%s_%s_%d_%s\n",userId,nama,0,pin);
         fclose(fp);
-        // fp = fopen("../database/history.txt","a+");
-        // while(fgets(tmp,100,fp)!=NULL){}
-        // fprintf(fp,"*****\n%s\n",userId);
-        // fclose(fp);
+        fp = fopen("../database/history.txt","a+");
+        while(fgets(tmp,100,fp)!=NULL){}
+        fprintf(fp,"*****\n%s\n",userId);
+        fclose(fp);
     }
     else
     {

@@ -43,8 +43,8 @@ int main()
 main:
     do
     {
-        //clear();
-        printf("(NAMABANK) Banking System\n\n");
+        clear();
+        printf("(BANK TOYIB) Banking System\n\n");
         printf("Apakah Anda Sudah Memiliki Rekening? ");
         printf("\n1. Sudah\n2. Belum\n3. Exit\nMasukkan Pilihan: ");
         scanf("%d", &choice);
@@ -61,7 +61,7 @@ main:
                         if(signin(u_ids) == true){
                             u_id = strtol(u_ids, &fp, 10);
                             //u_id = atol(u_ids);
-                            printf("%s %ld %ld berhasil masuk!\n",u_ids,u_id,users);
+                            //printf("%s %ld %ld berhasil masuk!\n",u_ids,u_id,users);
                             
                             menu();
                         }else{
@@ -82,7 +82,7 @@ main:
         }
         case 2:
             clear();
-            printf("(NAMABANK) Banking System\n\n");
+            printf("(BANK TOYIB) Banking System\n\n");
             printf("Apakah Anda Ingin Membuat Rekening?");
             printf("\n1. Ya\n2. Tidak\n3. Keluar\n\nMasukkan Pilihan: ");
             scanf("%d", &choice);
@@ -111,9 +111,9 @@ Procedure to print out the title of the app
 */
 void header()
 {
-    //clear();
+    clear();
     printf("-----------------------------------------\n");
-    printf("|       (NAMABANK) Banking System       |\n");
+    printf("|       (BANK TOYIB) Banking System      |\n");
     printf("|              ID %-8ld            |\n", u_id);
     printf("|            version xxx                |\n");
     printf("-----------------------------------------\n");
