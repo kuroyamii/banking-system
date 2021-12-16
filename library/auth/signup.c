@@ -36,25 +36,25 @@ bool eligible(bool state)
     {
         if (strcmp(tmp, "*****\n") == 0)
         {
-            printf("border pass\n");
+            // printf("border pass\n");
             fgets(tmp, 101, fp);
             sscanf(tmp, "%101[^\n]\n", &tmp);
             fflush(stdin);
             if (strcmp(tmp, nama) == 0)
             {
-            printf("nama pass\n");
+            // printf("nama pass\n");
                 fgets(tmp, 51, fp);
                 sscanf(tmp, "%51[^\n]\n", &tmp);
                 fflush(stdin);
                 if (strcmp(tmp, email) == 0)
                 {
-            printf("email pass\n");
+            // printf("email pass\n");
                    fgets(tmp, 11, fp);
                     sscanf(tmp, "%11[^\n]\n", &tmp);
                     fflush(stdin);
                     if (strcmp(tmp, ttl) == 0)
                     {
-            printf("ttl pass\n");
+            // printf("ttl pass\n");
                         fgets(tmp, 21, fp);
                         fflush(stdin);
                         fgets(tmp, 21, fp);
@@ -62,7 +62,7 @@ bool eligible(bool state)
                         fflush(stdin);
                         if (strcmp(tmp, ktp) == 0)
                         {
-                            printf("ktp pass\n");
+                            // printf("ktp pass\n");
                             if(state == true){
                                 fptr = fopen("../database/user.txt","r");
                                 fgets(tmp, 50, fp);
