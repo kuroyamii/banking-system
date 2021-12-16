@@ -40,18 +40,16 @@ void linkedList(char tipe[], int value){
 void defaultDisplay(int uid){
     struct tnode *bantu;
     bantu = head;
-    if(isEmpty()){
         printf("+---------------------------------------+\n");
         printf("|       (NAMABANK) Banking System       |\n");
         printf("|              ID %08d              |\n", uid);
         printf("|              version xxx              |\n");
         printf("+---------------------------------------+\n");
         do{
-            printf("Tipe transaksi: %s", bantu->tipeTrx);
-            printf("Nominal: %d", bantu->nominal);
+            printf("Tipe transaksi: %s\n", bantu->tipeTrx);
+            printf("Nominal: %ld\n", bantu->nominal);
             bantu = bantu->next;
         }while(bantu != tail);
-    }
 }
 
 void ascending(int count, int uid){
@@ -126,16 +124,9 @@ int trxHistory(int uid)
     int tempId;
     char tempT[11];
     char tmp[11];
-    int tempV;
+    long int tempV;
     int count = 0;
     history=fopen(dbHistory, "r");
-    // while(!feof(history)){
-    //     fscanf(history, "%[^_]_%d_%d", &tempT, &tempId, &tempV);
-    //     if(tempId == uid){
-    //         linkedList(tempT, tempV);
-    //         count++;
-    //     }
-    // }
     while(fgets(tmp, 11, history) != NULL){
         if(strcmp(tmp, "*****\n") == 0){
             fscanf(history, "%ld", &tempId);
@@ -144,6 +135,10 @@ int trxHistory(int uid)
                     fscanf(history, "%ld_%[^\n]", &tempV, &tempT);
                     linkedList(tempT, tempV);
                     count++;
+                    if(feof(history)){
+                        //count--;
+                        break;
+                    }
                 }
                 count--;
                 break;
@@ -158,13 +153,18 @@ int trxHistory(int uid)
     switch (choice)
     {
     case 1:
-        ascending(count, uid);
+        system("cls");
+        if(isEmpty()) printf("Maaf! Belum ada data transaksi\n");
+        else ascending(count, uid);
         break;
     case 2:
-        descending(count, uid);
+        system("cls");
+        if(isEmpty()) printf("Maaf! Belum ada data transaksi\n");
+        else descending(count, uid);
         break;
     case 3:
-        if(isEmpty()) printf("MASIH KOSONG\n");
+        system("cls");
+        if(isEmpty()) printf("Maaf! Belum ada data transaksi\n");
         else defaultDisplay(uid);
         break;
     case 4:
@@ -175,4 +175,6 @@ int trxHistory(int uid)
         break;
     }
     fclose(history);
+    head = NULL;
+    tail = NULL;
 }
