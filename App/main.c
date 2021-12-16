@@ -3,9 +3,12 @@
 #include "../library/utils/utils.h"
 #include "../library/auth/auth.h"
 #include "../library/transaction/trx.h"
+#include <signal.h>
 
-long users,u_id;
-int choice;
+long users;
+char u_ids[25]="";
+long u_id;
+int choice,choice2;
 void header();
 void menu();
 
@@ -33,7 +36,8 @@ void userCountWrite(){
 
 //Main Driver To Run The Program
 int main()
-{  
+{ 
+    char *fp; 
     userCount();
 
 main:
@@ -48,27 +52,31 @@ main:
         {
         case 1:
         {
-            printf("Menu:\n1. Sign in\n2. Sign up\n3. Keluar\nPilih: ");
-            scanf("%d",&choice);
-            switch(choice){
-                case 1:
-                {
-                    if(signin(&u_id) == true){
-                        printf("%ld",u_id);
-                        printf("berhasil masuk!\n");
-                        menu();
-                    }else{
-                        printf("Gagal");   
+            do{
+                printf("Menu:\n1. Sign in\n2. Sign up\n3. Keluar\nPilih: ");
+                scanf("%d",&choice2);
+                switch(choice2){
+                    case 1:
+                    {
+                        if(signin(u_ids) == true){
+                            u_id = strtol(u_ids, &fp, 10);
+                            //u_id = atol(u_ids);
+                            printf("%s %ld %ld berhasil masuk!\n",u_ids,u_id,users);
+                            
+                            menu();
+                        }else{
+                            printf("Gagal");   
+                        }
+                        break;
                     }
-                    break;
+                    case 2:
+                        signup();
+                        break;
+                    case 3:
+                        goto end;
+                        break;
                 }
-                case 2:
-                    signup();
-                    break;
-                case 3:
-                    goto end;
-                    break;
-            }
+            }while(choice2!=3);
             break;
         }
         case 2:
@@ -105,7 +113,7 @@ void header()
     //clear();
     printf("-----------------------------------------\n");
     printf("|       (NAMABANK) Banking System       |\n");
-    printf("|              ID %-8d              |\n", id);
+    printf("|              ID %-8ld            |\n", u_id);
     printf("|            version xxx                |\n");
     printf("-----------------------------------------\n");
 }
