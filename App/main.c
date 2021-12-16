@@ -3,7 +3,6 @@
 #include "../library/utils/utils.h"
 #include "../library/auth/auth.h"
 #include "../library/transaction/trx.h"
-#include <signal.h>
 
 long users;
 char u_ids[25]="";
