@@ -55,8 +55,8 @@ bool eligible(bool state)
                     if (strcmp(tmp, ttl) == 0)
                     {
             printf("ttl pass\n");
-                        // fgets(tmp, 21, fp);
-                        // fflush(stdin);
+                        fgets(tmp, 21, fp);
+                        fflush(stdin);
                         fgets(tmp, 21, fp);
                         sscanf(tmp, "%21[^\n]\n", &tmp);
                         fflush(stdin);

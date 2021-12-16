@@ -88,6 +88,7 @@ main:
             scanf("%d", &choice);
             if (choice==1){
                 users = users + addRekening(users);
+                userCountWrite();
             }
             else if (choice==2){
                 goto main;
@@ -102,7 +103,6 @@ main:
     } while (choice!=3);
 
 end:
-    userCountWrite();
     return 0;
 }
 
