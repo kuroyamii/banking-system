@@ -4,7 +4,10 @@ int trxDeposit(long uid)
 {
     int x=0, y=0, z=0;
     char tmp[101], sec[7];
-    int choice, amount;
+    char tmp2[101];
+    long int tempId;
+    int choice;
+    long int amount;
     Database userDb[max];
     user=fopen(db, "r");
     history=fopen(dbHistory, "r+");
@@ -31,6 +34,7 @@ int trxDeposit(long uid)
     while (!feof(user)){
         fscanf(user,"%ld_%[^_]_%ld_%s\n", &userDb[x].userId, &userDb[x].userName, &userDb[x].userSaldo, &userDb[x].userPin);
         fflush(stdin);
+        FILE *fpCopy;
         if (uid==userDb[x].userId){
             printf("\nMasukkan PIN: "); scanf("%s", &sec);
             if (strcmp(sec, userDb[x].userPin)==0){
@@ -40,13 +44,38 @@ int trxDeposit(long uid)
                     fscanf(history,"%ld", &userDb[y].userHistory);
                     fflush(stdin);
                     if (userDb[y].userHistory==userDb[x].userId){
-                        fprintf(history,"%d_Deposit\n", amount);
+                        fprintf(history,"%ld_Deposit\n", amount);
                         z=1;
+                        fpCopy = fopen("../database/copycat.txt", "a");
+                        fseek(history, 0, SEEK_SET);
+                        int c = 0;
+                        while(fgets(tmp, 101, history) != NULL){
+                            fputs(tmp, fpCopy);
+                            if(strcmp(tmp, "*****\n") == 0){
+                                fscanf(history, "%ld", &tempId);
+                                if(tempId == userDb[y].userHistory){
+                                    fprintf(fpCopy, "%ld\n%ld_Deposit", tempId, amount);
+                                }
+                                else{
+                                    fprintf(fpCopy, "%ld", tempId);
+                                }
+                            }
+                        }
                     }
                     y++;
                 }
-                if (z==0)
-                fprintf(history,"*****\n%ld\n%d_Deposit\n", userDb[x].userId, amount);
+                fclose(fpCopy);
+                fclose(history);
+                history = fopen(dbHistory, "w+");
+                fpCopy = fopen("../database/copycat.txt", "r");
+                fseek(fpCopy, 0, SEEK_SET);
+                while(fgets(tmp, 101, fpCopy) != NULL){
+                    fputs(tmp, history);
+                }
+                fclose(fopen("../database/copycat.txt", "w"));
+                if (z==0){
+                    fprintf(history,"*****\n%ld\n%d_Deposit\n", userDb[x].userId, amount);
+                }
             }
             else {
                 printf("\nPIN Salah.");
